@@ -31,9 +31,11 @@ const SignUp = () => {
   };
 
   return (
-    <div
-      className=" mx-auto p-4 mt-5 "
-      style={{ backgroundColor: "#D3D3D3", width: "30%", borderRadius: "3%" }}
+    <div className="row">
+      <div className="col-md-6 mx-auto my-5">
+      <div
+      className=" mx-2 p-4 mt-5 "
+      style={{ backgroundColor: "#D3D3D3", borderRadius: "3%" }}
     >
       {!isLoading && (
         <Form onSubmit={handelFrom}>
@@ -115,6 +117,8 @@ const SignUp = () => {
           ></button>
         </div>
       )}
+    </div>
+      </div>
     </div>
   );
 };

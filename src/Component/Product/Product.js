@@ -4,7 +4,7 @@ import Service from '../Services/Service';
 
 
 const Product = () => {
-
+       
     const [ services, setServices ]= useState([])
     useEffect(() => {
         fetch('http://localhost:5000/services')
@@ -14,6 +14,9 @@ const Product = () => {
 
     return (
         <div className='mx-3 mt-5 '>
+                  
+            <h1 style={{ color:'#03a9f4'}} className='text-center fw-bolder my-3'> All  Product </h1>
+            <hr className='mx-auto w-25 mb-5' />
             
             <div className='row '>
             {
