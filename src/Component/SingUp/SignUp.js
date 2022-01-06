@@ -32,7 +32,9 @@ const SignUp = () => {
 
   return (
     <div className="row">
-      <div className="col-md-6 mx-auto my-5">
+      <div className="col-md-4 mx-auto mb-5">
+      <h1 style={{ color:'#03a9f4'}} className="text-center mt-3">Register Here</h1>
+        <hr className='mx-auto w-25 mb-5' />
       <div
       className=" mx-2 p-4 mt-5 "
       style={{ backgroundColor: "#D3D3D3", borderRadius: "3%" }}
