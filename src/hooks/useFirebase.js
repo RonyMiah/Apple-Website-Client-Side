@@ -4,14 +4,17 @@ import { getAuth, createUserWithEmailAndPassword, signOut ,signInWithEmailAndPas
 import firebaseinitialize from "../Component/Firebase/FIrebaseinitialize";
 
 // initialize firebase
-
 firebaseinitialize();
 
+
 const useFirebase = () => {
+
   const [user, setUser] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const [authError, setAuthError] =useState('')
     
+  // Admin Check 
+  const [admin , setAdmin]= useState(false)
   const auth = getAuth();
   const googleProvider = new GoogleAuthProvider();
 
@@ -24,11 +27,11 @@ const useFirebase = () => {
         setUser(newUser);
 
         //save user from database
-      console.log(email,name);
-        saveUser(email, name);
 
-        // send name To Firebase .. (Firebase Manage user thaika nise)
+      // console.log(email,name);
+        saveUser(email, name,'POST');
 
+   // send name To Firebase .. (Firebase Manage user thaika nise)
         updateProfile(auth.currentUser, {
           displayName: name
         }).then(() => {
@@ -36,12 +39,11 @@ const useFirebase = () => {
         });
         setAuthError('')
       })
-    navigate('/')
       .catch((error) => {
         setAuthError(error.message)
       })
       .finally(() => setIsLoading(false));
-      ;
+      navigate('/')
   };
 
 
@@ -49,35 +51,34 @@ const useFirebase = () => {
     setIsLoading(true);
     signInWithEmailAndPassword(auth, email, password)
   .then((userCredential) => {
-    const distination = location.state?.from || '/';
-    navigate(distination);
+    const destination = location.state?.from || '/';
+    navigate(destination);
     setAuthError('')
-    
   })
   .catch((error) => {
     setAuthError(error.message)
   })
-    .finally( ()=> setIsLoading(false))
-      ;
+    .finally( ()=> setIsLoading(false));
   }
 
-  const googleLogIn = (location,navigate) => {
+  const googleLogIn = (location, navigate) => {
+    setIsLoading(true);
     signInWithPopup(auth, googleProvider)
-  .then((result) => {
-    // // This gives you a Google Access Token. You can use it to access the Google API.
-    // const credential = GoogleAuthProvider.credentialFromResult(result);
-    // const token = credential.accessToken;
-    // // The signed-in user info.
-    // const user = result.user;
-    // // ...
+      .then((result) => {
+        const user = result.user;
+        // console.log(user);
+
+        saveUserGoogle(user.email, user.displayName,user.photoURL, 'PUT');
+
     const destination = location.state?.from || '/';
     navigate(destination);
     setAuthError('')
   }).catch((error) => {
     setAuthError(error.message)
-  });
+  }).finally( ()=> setIsLoading(false));
   }
 
+  // Obserbar  Browser 
 
     useEffect(() => { 
         const unSubscribe = onAuthStateChanged(auth, (user) => {
@@ -102,10 +103,22 @@ const useFirebase = () => {
           .finally( ()=> setIsLoading(false))
           ;
   }
-  const saveUser = (email, displayName) => { 
+
+  const saveUser = (email, displayName, method) => {
     const user = { email, displayName }
     fetch('http://localhost:5000/users', {
-      method: 'POST',
+      method: method,
+      headers: {
+        'content-type': 'application/json'
+      },
+      body: JSON.stringify(user)
+    })
+      .then()
+  };
+  const saveUserGoogle = (email, displayName,img,method) => { 
+    const user = { email, displayName,img }
+    fetch('http://localhost:5000/users', {
+      method: method,
       headers: {
         'content-type': 'application/json'
       },
@@ -114,6 +127,13 @@ const useFirebase = () => {
     .then()
   }
 
+  // Admin Check 
+  useEffect(() => {
+    fetch(`http://localhost:5000/users/${user.email}`)
+      .then(res => res.json())
+    .then(data => setAdmin(data.admin))
+  } ,[user.email])
+
   
 
 
@@ -121,6 +141,7 @@ const useFirebase = () => {
       user,
     registerUser,
     loginUser,
+    admin,
     authError,
     isLoading,
     googleLogIn,

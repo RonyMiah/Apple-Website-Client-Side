@@ -13,6 +13,14 @@ import About from "./Component/About/About";
 import Product from "./Component/Product/Product";
 import Booking from "./Component/Booking/Booking/Booking";
 import AddService from "./Component/AddService/AddService";
+import Payment from "./Component/Payment/Payment";
+import ManageOrder from "./Component/ManageOrder/ManageOrder";
+import NotFound from "./Component/NotFound/NotFound";
+import Review from "./Component/Review/Review";
+import Admin from "./Component/Admin/Admin";
+import AdminRoute from "./Component/Login/AdminRoute/AdminRoute";
+import ContactUs from "./Component/ContactUs/ContactUs";
+
 
 function App() {
   return (
@@ -26,9 +34,15 @@ function App() {
             <Route path="/product" element={<Product />} />
             <Route path="/booking/:BookingId" element={<Booking />} />
             <Route path="/signup" element={<SignUp />} />
-            <Route path="/addService" element={<AddService />} />
+            <Route path="/contact" element={<ContactUs></ContactUs>} />
+            <Route path="/addService" element={<AdminRoute> <AddService /> </AdminRoute>} />
+            <Route path="/payment" element={<Payment />} />
+            <Route path="/manage" element={<ManageOrder />} />
+            <Route path="/review" element={<Review />} />
+            <Route path="/admin" element={<AdminRoute> <Admin /> </AdminRoute>} />
             <Route path="/about" element={<About />} />
             <Route path="/login" element={<Login />} />
+            <Route path="*" element={<NotFound/>} />
 
             <Route path="invoices" />
           </Routes>

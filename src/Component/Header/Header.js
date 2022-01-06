@@ -1,15 +1,14 @@
 import React from "react";
-import { Button, Container, Form, Nav, Navbar } from "react-bootstrap";
+import {  Container, Form, Nav, Navbar } from "react-bootstrap";
 import { Link, NavLink } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
-import Cart from "../Cart/Cart";
 import "./Header.css";
 
 const Header = () => {
-  const { user ,logOut} = useAuth();
+  const { user ,logOut,admin} = useAuth();
   return (
     <div>
-      <Navbar bg="light" expand="lg">
+      <Navbar  bg="light" expand="lg">
         <Container fluid>
           <Navbar.Brand href="#">
             <img
@@ -46,16 +45,39 @@ const Header = () => {
               </NavLink>
               <NavLink
                 className="m-2 text-decoration-none text-uppercase"
-                to="/home"
+                to="/contact"
               >
                 Contact Us
               </NavLink>
             </Nav>
             <Form className="d-flex">
               {
-                user.email? 
+                user.email?
                 
-                  <Button className="mx-3" onClick={logOut}>LogOut</Button> 
+                  
+         <div>
+                    <div className="dropdown">
+                    <button className="  btn  dropdown-toggle " type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i className="fas fa-columns"></i> DashBoard
+                    </button>
+                    <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                      <li><Link className="dropdown-item fw-normal" to="#"> <i className="fas fa-user-circle"></i> Hi , {user.displayName}</Link></li>
+                      <li><Link className="dropdown-item" to="/manage">My Order</Link></li>
+                      <li><Link className="dropdown-item" to="/payment">Pay </Link></li>
+                      <li><Link className="dropdown-item" to="/review">Review</Link></li>
+                      
+                        
+                      {
+                          admin && <div>
+                            <li><Link className="dropdown-item" to="/admin">Make Admin</Link></li>
+                      <li><Link className="dropdown-item" to="/addService">Add Service</Link></li>
+                        </div>
+                      }
+                      
+                      <li><Link  onClick={logOut} className="dropdown-item fw-bolder" to="#">Log Out</Link></li>
+                       </ul>
+        </div>
+                  </div>
                   :
                   <Link to="/login" className="btn  btn-outline-primary mx-3">
                 LogIn
@@ -63,7 +85,7 @@ const Header = () => {
               }
             </Form>
             <Form className="d-flex">
-              <Cart></Cart>
+            
             </Form>
           </Navbar.Collapse>
         </Container>

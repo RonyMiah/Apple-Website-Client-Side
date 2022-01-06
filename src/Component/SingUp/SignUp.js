@@ -17,22 +17,7 @@ const SignUp = () => {
     setSignupData(newSignUpData);
   };
 
-  // if (signupData.password !== signupData.password2) {
-  //   alert("Your Password Did not Match");
-  //   return;
-  // }
-  // registerUser(signupData.email, signupData.password);
-
-  // const [email, setEmail] = useState({});
-  // const [password, setPassword] = useState({});
-
-  // const emailChange = (e) => {
-  //   setEmail(e.target.value);
-  // };
-
-  // const passwordChange = (e) => {
-  //   setPassword(e.target.value);
-  // };
+ 
 
   const handelFrom = (e) => {
     registerUser(signupData.email, signupData.password, signupData.name, navigate);

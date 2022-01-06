@@ -12,7 +12,7 @@ const Booking = () => {
         fetch(`http://localhost:5000/services/${BookingId}`)
         .then(res=> res.json())
         .then(data=> setService(data))
-    }, [])
+    }, [BookingId])
 
     return (
         <div className="container my-5" >
@@ -37,7 +37,7 @@ const Booking = () => {
                 </div>
                   
                 <div className="col-md-6">
-                    <BookingFrom></BookingFrom>
+                    <BookingFrom data={service} ></BookingFrom>
                 </div>
             </div>
         </div>
